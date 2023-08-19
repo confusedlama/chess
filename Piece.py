@@ -6,7 +6,9 @@ class Piece():
 class King(Piece):
     def __init__(self, position: list, player:int) -> None:
         super().__init__(position, player)
-    
+        self.type = "k"
+        self.type_long = "King"
+
     # returns all reachable positions does not take other pieces into account that might block the way
     def get_moves(self) -> list:
         possible_moves = [
