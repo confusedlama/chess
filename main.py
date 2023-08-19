@@ -66,17 +66,17 @@ if __name__ == "__main__":
 
         for piece_position in board.white_pieces.keys():
             if piece_position != active_piece_position:
-                screen.blit(piece_images[board.white_pieces[piece_position]], logic_to_gui_pos(piece_position[0], piece_position[1]))      
+                screen.blit(piece_images[board.white_pieces[piece_position].player + board.white_pieces[piece_position].type], logic_to_gui_pos(piece_position[0], piece_position[1]))      
         
         for piece_position in board.black_pieces.keys():
             if piece_position != active_piece_position:
-                screen.blit(piece_images[board.black_pieces[piece_position]], logic_to_gui_pos(piece_position[0], piece_position[1]))    
+                screen.blit(piece_images[board.black_pieces[piece_position].player + board.black_pieces[piece_position].type], logic_to_gui_pos(piece_position[0], piece_position[1]))    
         
         if active_piece_position != None:
             if active_piece_position in board.white_pieces.keys():
-                screen.blit(piece_images[board.white_pieces[active_piece_position]], (pg.mouse.get_pos()[0] - 37, pg.mouse.get_pos()[1] - 37))
+                screen.blit(piece_images[board.white_pieces[active_piece_position].player + board.white_pieces[active_piece_position].type], (pg.mouse.get_pos()[0] - 37, pg.mouse.get_pos()[1] - 37))
             else:
-                screen.blit(piece_images[board.black_pieces[active_piece_position]], (pg.mouse.get_pos()[0] - 37, pg.mouse.get_pos()[1] - 37))
+                screen.blit(piece_images[board.black_pieces[active_piece_position].player + board.black_pieces[active_piece_position].type], (pg.mouse.get_pos()[0] - 37, pg.mouse.get_pos()[1] - 37))
 
         # flip() the display to put your work on screen
         pg.display.flip()

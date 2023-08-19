@@ -1,13 +1,13 @@
 class Piece():
-    def __init__(self, position:list, player:int) -> None:
+    def __init__(self, position:list, player:str, type:str) -> None:
         self.position = position
         self.player = player
-    
+        self.type = type
+
+
 class King(Piece):
-    def __init__(self, position: list, player:int) -> None:
-        super().__init__(position, player)
-        self.type = "k"
-        self.type_long = "King"
+    def __init__(self, position:list, player:str, type:str) -> None:
+        super().__init__(position, player, type)
 
     # returns all reachable positions does not take other pieces into account that might block the way
     def get_moves(self) -> list:
@@ -30,9 +30,10 @@ class King(Piece):
 
         return moves
 
+
 class Queen(Piece):
-    def __init__(self, position: list, player: int) -> None:
-        super().__init__(position, player)
+    def __init__(self, position:list, player:str, type:str) -> None:
+        super().__init__(position, player, type)
 
     def get_moves(self) -> list:
         moves = []
@@ -56,10 +57,11 @@ class Queen(Piece):
             for i in range(self.position[0]):
                 moves.append([self.position[0]-i, self.position[1]-i])
         return moves
-    
+
+
 class Rook(Piece):
-    def __init__(self, position: list, player: int) -> None:
-        super().__init__(position, player)
+    def __init__(self, position:list, player:str, type:str) -> None:
+        super().__init__(position, player, type)
 
     def get_moves(self) -> list:
         moves = []
@@ -76,6 +78,16 @@ class Rook(Piece):
         return moves
 
 
-queen = Queen([1,1], 0)
-print(queen.get_moves())
-# print(list(range(1, 1)))
+class Bishop(Piece):
+    def __init__(self, position:list, player:str, type:str) -> None:
+        super().__init__(position, player, type)
+
+
+class Knight(Piece):
+    def __init__(self, position:list, player:str, type:str) -> None:
+        super().__init__(position, player, type)
+
+
+class Pawn(Piece):
+    def __init__(self, position:list, player:str, type:str) -> None:
+        super().__init__(position, player, type)
