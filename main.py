@@ -1,6 +1,7 @@
 from os.path import join
 import pygame as pg
 from Board import Board
+from Chess import game
 
 
 def gui_to_logic_pos(pos_x, pos_y):
@@ -34,7 +35,8 @@ if __name__ == "__main__":
         "wr": pg.image.load(join(pieces_dir, "wr.png")).convert_alpha()
     }
 
-    board = Board()
+    chess_game = game()
+    board = chess_game.board
 
     active_piece_position = None
 
@@ -44,26 +46,28 @@ if __name__ == "__main__":
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
+
+            # drag and drop pieces
             if event.type == pg.MOUSEBUTTONDOWN:
                 klicked_pos = gui_to_logic_pos(event.pos[0], event.pos[1])
-                if klicked_pos in board.white_pieces.keys() or klicked_pos in board.black_pieces.keys():
+                if klicked_pos in chess_game.get_current_player_pieces():
                     active_piece_position = klicked_pos
             if event.type == pg.MOUSEBUTTONUP:
                 if active_piece_position != None:
-                    if active_piece_position in board.white_pieces.keys():
-                        active_piece = board.white_pieces[active_piece_position]
-                        board.white_pieces.pop(active_piece_position)
-                        board.white_pieces[gui_to_logic_pos(event.pos[0], event.pos[1])] = active_piece
-                        active_piece_position = None
-                    else:
-                        active_piece = board.black_pieces[active_piece_position]
-                        board.black_pieces.pop(active_piece_position)
-                        board.black_pieces[gui_to_logic_pos(event.pos[0], event.pos[1])] = active_piece
-                        active_piece_position = None
+                    new_pos = gui_to_logic_pos(event.pos[0], event.pos[1])
+                    chess_game.gui_move(active_piece_position[0],
+                                        active_piece_position[1],
+                                        new_pos[0],
+                                        new_pos[1])
+                    board = chess_game.board
+                    active_piece_position = None
+
+
 
         # RENDER YOUR GAME HERE
         screen.blit(board_image, (0, 100))
 
+        # render pieces
         for piece_position in board.white_pieces.keys():
             if piece_position != active_piece_position:
                 screen.blit(piece_images[board.white_pieces[piece_position].player + board.white_pieces[piece_position].type], logic_to_gui_pos(piece_position[0], piece_position[1]))      
@@ -72,6 +76,7 @@ if __name__ == "__main__":
             if piece_position != active_piece_position:
                 screen.blit(piece_images[board.black_pieces[piece_position].player + board.black_pieces[piece_position].type], logic_to_gui_pos(piece_position[0], piece_position[1]))    
         
+        # render active piece
         if active_piece_position != None:
             if active_piece_position in board.white_pieces.keys():
                 screen.blit(piece_images[board.white_pieces[active_piece_position].player + board.white_pieces[active_piece_position].type], (pg.mouse.get_pos()[0] - 37, pg.mouse.get_pos()[1] - 37))
@@ -81,6 +86,6 @@ if __name__ == "__main__":
         # flip() the display to put your work on screen
         pg.display.flip()
 
-        clock.tick(20)
+        clock.tick(30)
 
     pg.quit()

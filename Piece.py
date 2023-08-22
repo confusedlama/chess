@@ -1,93 +1,198 @@
+
+
 class Piece():
-    def __init__(self, position:list, player:str, type:str) -> None:
-        self.position = position
+    def __init__(self, player:str, type:str) -> None:
         self.player = player
         self.type = type
 
 
 class King(Piece):
-    def __init__(self, position:list, player:str, type:str) -> None:
-        super().__init__(position, player, type)
+    def __init__(self, player:str, type:str) -> None:
+        super().__init__(player, type)
+        self.has_moved = False
 
     # returns all reachable positions does not take other pieces into account that might block the way
-    def get_moves(self) -> list:
-        possible_moves = [
-            [self.position[0]-1, self.position[1]-1],
-            [self.position[0], self.position[1]-1],
-            [self.position[0]+1, self.position[1]-1],
-            [self.position[0]-1, self.position[1]],
-            [self.position[0]+1, self.position[1]],
-            [self.position[0]-1, self.position[1]+1],
-            [self.position[0], self.position[1]+1],
-            [self.position[0]+1, self.position[1]+1],
-        ]
-
-        moves = []
-
-        for move in possible_moves:
-            if move[0] > 0 and move[0] < 9 and move[1] > 0 and move[1] < 9:
-                moves.append(move)
-
-        return moves
+    def get_moves(self, x, y) -> dict:
+        return {
+            (x-1, y-1),
+            (x, y-1),
+            (x+1, y-1),
+            (x-1, y),
+            (x+1, y),
+            (x-1, y+1),
+            (x, y+1),
+            (x+1, y+1),
+        }
 
 
 class Queen(Piece):
-    def __init__(self, position:list, player:str, type:str) -> None:
-        super().__init__(position, player, type)
+    def __init__(self, player:str, type:str) -> None:
+        super().__init__(player, type)
 
-    def get_moves(self) -> list:
-        moves = []
-
-        # straights
-        for i in range(1, self.position[0]):
-            moves.append([i, self.position[1]])
-        for i in range(self.position[0]+1 , 9):
-            moves.append([i, self.position[1]])
-        for i in range(1, self.position[1]):
-            moves.append([self.position[0], i])
-        for i in range(self.position[1]+1 , 9):
-            moves.append([self.position[0], i])
-
-        # for kleinere kathete von der diagonale append pos
-        # diagonals
-        if self.position[0] < 8 - self.position[1]:
-            for i in range(self.position[0]):
-                moves.append([self.position[0]-i, self.position[1]+i])
-        if self.position[0] < self.position[1]:
-            for i in range(self.position[0]):
-                moves.append([self.position[0]-i, self.position[1]-i])
-        return moves
+    def get_moves(self, x, y) -> list:
+        return {
+            (x+1, y),
+            (x+2, y),
+            (x+3, y),
+            (x+4, y),
+            (x+5, y),
+            (x+6, y),
+            (x+7, y),
+            (x-1, y),
+            (x-2, y),
+            (x-3, y),
+            (x-4, y),
+            (x-5, y),
+            (x-6, y),
+            (x-7, y),
+            (x, y+1),
+            (x, y+2),
+            (x, y+3),
+            (x, y+4),
+            (x, y+5),
+            (x, y+6),
+            (x, y+7),
+            (x, y-1),
+            (x, y-2),
+            (x, y-3),
+            (x, y-4),
+            (x, y-5),
+            (x, y-6),
+            (x, y-7),
+            (x+1, y+1),
+            (x+2, y+2),
+            (x+3, y+3),
+            (x+4, y+4),
+            (x+5, y+5),
+            (x+6, y+6),
+            (x+7, y+7),
+            (x-1, y-1),
+            (x-2, y-2),
+            (x-3, y-3),
+            (x-4, y-4),
+            (x-5, y-5),
+            (x-6, y-6),
+            (x-7, y-7),
+            (x-1, y+1),
+            (x-2, y+2),
+            (x-3, y+3),
+            (x-4, y+4),
+            (x-5, y+5),
+            (x-6, y+6),
+            (x-7, y+7),
+            (x+1, y-1),
+            (x+2, y-2),
+            (x+3, y-3),
+            (x+4, y-4),
+            (x+5, y-5),
+            (x+6, y-6),
+            (x+7, y-7)
+        }
 
 
 class Rook(Piece):
-    def __init__(self, position:list, player:str, type:str) -> None:
-        super().__init__(position, player, type)
+    def __init__(self, player:str, type:str) -> None:
+        super().__init__(player, type)
+        self.has_moved = False
 
-    def get_moves(self) -> list:
-        moves = []
-
-        for i in range(1, self.position[0]):
-            moves.append([i, self.position[1]])
-        for i in range(self.position[0]+1 , 9):
-            moves.append([i, self.position[1]])
-        for i in range(1, self.position[1]):
-            moves.append([self.position[0], i])
-        for i in range(self.position[1]+1 , 9):
-            moves.append([self.position[0], i])
-
-        return moves
+    def get_moves(self, x, y) -> list:
+                return {
+            (x+1, y),
+            (x+2, y),
+            (x+3, y),
+            (x+4, y),
+            (x+5, y),
+            (x+6, y),
+            (x+7, y),
+            (x-1, y),
+            (x-2, y),
+            (x-3, y),
+            (x-4, y),
+            (x-5, y),
+            (x-6, y),
+            (x-7, y),
+            (x, y+1),
+            (x, y+2),
+            (x, y+3),
+            (x, y+4),
+            (x, y+5),
+            (x, y+6),
+            (x, y+7),
+            (x, y-1),
+            (x, y-2),
+            (x, y-3),
+            (x, y-4),
+            (x, y-5),
+            (x, y-6),
+            (x, y-7)
+        }
 
 
 class Bishop(Piece):
-    def __init__(self, position:list, player:str, type:str) -> None:
-        super().__init__(position, player, type)
+    def __init__(self, player:str, type:str) -> None:
+        super().__init__(player, type)
+        
+    def get_moves(self, x, y) -> list:
+        return {
+            (x+1, y+1),
+            (x+2, y+2),
+            (x+3, y+3),
+            (x+4, y+4),
+            (x+5, y+5),
+            (x+6, y+6),
+            (x+7, y+7),
+            (x-1, y-1),
+            (x-2, y-2),
+            (x-3, y-3),
+            (x-4, y-4),
+            (x-5, y-5),
+            (x-6, y-6),
+            (x-7, y-7),
+            (x-1, y+1),
+            (x-2, y+2),
+            (x-3, y+3),
+            (x-4, y+4),
+            (x-5, y+5),
+            (x-6, y+6),
+            (x-7, y+7),
+            (x+1, y-1),
+            (x+2, y-2),
+            (x+3, y-3),
+            (x+4, y-4),
+            (x+5, y-5),
+            (x+6, y-6),
+            (x+7, y-7)
+        }
 
 
 class Knight(Piece):
-    def __init__(self, position:list, player:str, type:str) -> None:
-        super().__init__(position, player, type)
+    def __init__(self, player:str, type:str) -> None:
+        super().__init__(player, type)
+        
+    def get_moves(self, x, y) -> list:
+        return {
+            (x+1, y-2),
+            (x-1, y-2),
+            (x+1, y+2),
+            (x-1, y+2),
+            (x+2, y-1),
+            (x+2, y+1),
+            (x-2, y-1),
+            (x-2, y+1)
+        }
 
 
 class Pawn(Piece):
-    def __init__(self, position:list, player:str, type:str) -> None:
-        super().__init__(position, player, type)
+    def __init__(self, player:str, type:str) -> None:
+        super().__init__(player, type)
+        self.has_moved = False
+        
+    def get_moves(self, x, y) -> list:
+        if self.player == "w":
+            return {
+                (x, y+1)
+            }
+        else:
+            return {
+                (x, y-1)
+            }
